@@ -1,0 +1,40 @@
+DISTDIR = $(HOME)/distfiles
+WORKDIR = $(HOME)/work
+PREFIX = $(HOME)/local/postfix
+POSTFIX_DIST = postfix-2.8.0.tar.gz
+POSTFIX_DISTFILE = $(DISTDIR)/$(POSTFIX_DIST)
+POSTFIX_SRCDIR := $(WORKDIR)/postfix-$(shell date +%Y%m%d-%H%M)/
+POSTFIX_BUILDDIR = $(POSTFIX_SRCDIR)/postfix-2.8.0
+
+POSTFIX_BUILTIN_PARAMETERS = \
+    -DDEF_COMMAND_DIR=\"$(PREFIX)/usr/sbin\" \
+    -DDEF_CONFIG_DIR=\"$(PREFIX)/etc/postfix\" \
+    -DDEF_DAEMON_DIR=\"$(PREFIX)/usr/libexec/postfix\" \
+    -DDEF_DATA_DIR=\"$(PREFIX)/var/lib/postfix\" \
+    -DDEF_MAILQ_PATH=\"$(PREFIX)/usr/bin/mailq\" \
+    -DDEF_MANPAGE_DIR=\"$(PREFIX)/usr/local/man\" \
+    -DDEF_NEWALIAS_PATH=\"$(PREFIX)/usr/bin/newaliases\" \
+    -DDEF_QUEUE_DIR=\"$(PREFIX)/var/spool/postfix\" \
+    -DDEF_SENDMAIL_PATH=\"$(PREFIX)/usr/sbin/sendmail\"
+
+
+postfix: postfix-build postfix-install
+
+$(POSTFIX_DISTFILE):
+	[ -d $(DISTDIR) ] || mkdir $(DISTDIR)
+	cd $(DISTDIR) && wget 'http://www.tigertech.net/mirrors/postfix-release/official/$(POSTFIX_DIST)'
+
+postfix-src: $(POSTFIX_DISTFILE)
+	mkdir -p $(POSTFIX_SRCDIR)
+	cd $(POSTFIX_SRCDIR) && tar xvfz $(POSTFIX_DISTFILE)
+
+postfix-build: postfix-src
+	make -C$(POSTFIX_BUILDDIR) makefiles CCARGS='$(POSTFIX_BUILTIN_PARAMETERS)' && \
+	make -C$(POSTFIX_BUILDDIR)
+
+postfix-create-account:
+	sudo /usr/sbin/useradd -r -U -s /no/shell -d /no/where postfix
+	sudo /usr/sbin/groupadd postdrop
+
+postfix-install:
+	sudo make -C$(POSTFIX_BUILDDIR) install
