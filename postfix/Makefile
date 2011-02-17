@@ -6,19 +6,19 @@ POSTFIX_DISTFILE = $(DISTDIR)/$(POSTFIX_DIST)
 POSTFIX_SRCDIR := $(WORKDIR)/postfix-$(shell date +%Y%m%d-%H%M)/
 POSTFIX_BUILDDIR = $(POSTFIX_SRCDIR)/postfix-2.8.0
 
-POSTFIX_BUILTIN_PARAMETERS = \
-    -DDEF_COMMAND_DIR=\"$(PREFIX)/usr/sbin\" \
-    -DDEF_CONFIG_DIR=\"$(PREFIX)/etc/postfix\" \
-    -DDEF_DAEMON_DIR=\"$(PREFIX)/usr/libexec/postfix\" \
-    -DDEF_DATA_DIR=\"$(PREFIX)/var/lib/postfix\" \
-    -DDEF_MAILQ_PATH=\"$(PREFIX)/usr/bin/mailq\" \
-    -DDEF_MANPAGE_DIR=\"$(PREFIX)/usr/local/man\" \
-    -DDEF_NEWALIAS_PATH=\"$(PREFIX)/usr/bin/newaliases\" \
-    -DDEF_QUEUE_DIR=\"$(PREFIX)/var/spool/postfix\" \
-    -DDEF_SENDMAIL_PATH=\"$(PREFIX)/usr/sbin/sendmail\"
+# POSTFIX_BUILTIN_PARAMETERS = \
+#     -DDEF_COMMAND_DIR=\"$(PREFIX)/usr/sbin\" \
+#     -DDEF_CONFIG_DIR=\"$(PREFIX)/etc/postfix\" \
+#     -DDEF_DAEMON_DIR=\"$(PREFIX)/usr/libexec/postfix\" \
+#     -DDEF_DATA_DIR=\"$(PREFIX)/var/lib/postfix\" \
+#     -DDEF_MAILQ_PATH=\"$(PREFIX)/usr/bin/mailq\" \
+#     -DDEF_MANPAGE_DIR=\"$(PREFIX)/usr/local/man\" \
+#     -DDEF_NEWALIAS_PATH=\"$(PREFIX)/usr/bin/newaliases\" \
+#     -DDEF_QUEUE_DIR=\"$(PREFIX)/var/spool/postfix\" \
+#     -DDEF_SENDMAIL_PATH=\"$(PREFIX)/usr/sbin/sendmail\"
 
 
-postfix: postfix-build postfix-install
+postfix: postfix-build postfix-create-account postfix-install
 
 $(POSTFIX_DISTFILE):
 	[ -d $(DISTDIR) ] || mkdir $(DISTDIR)
