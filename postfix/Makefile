@@ -35,8 +35,8 @@ postfix-build: postfix-src
 	make -C$(POSTFIX_BUILDDIR)
 
 postfix-create-account:
-	sudo /usr/sbin/useradd -r -U -s /no/shell -d /no/where postfix
-	sudo /usr/sbin/groupadd postdrop
+	sudo /usr/sbin/useradd -r -U -s /no/shell -d /no/where postfix || echo 'user postfix may exist.'
+	sudo /usr/sbin/groupadd postdrop || echo 'group postdrop may exist.'
 
 postfix-install:
 	sudo make -C$(POSTFIX_BUILDDIR) upgrade
