@@ -74,7 +74,7 @@ mail_owner = postfix
 #
 #myhostname = host.domain.tld
 #myhostname = virtual.domain.tld
-myhostname = torus.jp
+myhostname = mail.torus.jp
 
 # The mydomain parameter specifies the local internet domain name.
 # The default is to use $myhostname minus the first component.
@@ -164,8 +164,8 @@ myhostname = torus.jp
 #	mail.$mydomain, www.$mydomain, ftp.$mydomain
 
 mydestination = $myhostname, localhost.$mydomain, $mydomain,
-        torus.jp, mail.torus.jp,
         krnc.jp, mail.krnc.jp,
+	scrw.in, mail.scrw.in
 
 
 # REJECTING MAIL FOR UNKNOWN LOCAL USERS
