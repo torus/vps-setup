@@ -19,7 +19,7 @@ POSTFIX_BUILDDIR = $(POSTFIX_SRCDIR)/postfix-2.8.0
 #     '
 
 
-postfix: postfix-build postfix-create-account postfix-install
+postfix: postfix-build postfix-create-account postfix-install postfix-config
 
 $(POSTFIX_DISTFILE):
 	[ -d $(DISTDIR) ] || mkdir $(DISTDIR)
@@ -39,3 +39,6 @@ postfix-create-account:
 
 postfix-install:
 	sudo make -C$(POSTFIX_BUILDDIR) install
+
+postfix-config:
+	sudo cp main.cf /etc/postfix/
