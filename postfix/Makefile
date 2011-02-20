@@ -19,7 +19,8 @@ POSTFIX_BUILDDIR = $(POSTFIX_SRCDIR)/postfix-2.8.0
 #     '
 
 
-postfix: postfix-build postfix-create-account postfix-config postfix-install
+
+postfix: postfix-build postfix-create-account postfix-config postfix-install postfix-run dot-forward
 
 $(POSTFIX_DISTFILE):
 	[ -d $(DISTDIR) ] || mkdir $(DISTDIR)
@@ -42,4 +43,17 @@ postfix-install:
 
 postfix-config:
 	[ -d /etc/postfix ] || sudo mkdir /etc/postfix
+	[ -f /etc/postfix/main.cf ] && sudo cp /etc/postfix/main.cf /etc/postfix/main.cf.orig.`date +%Y-%m-%d`
 	sudo cp main.cf /etc/postfix/
+
+postfix-apt:
+	sudo apt-get install postfix
+
+postfix-run:
+	sudo /usr/bin/newaliases
+	echo '0 * * * * /usr/sbin/postfix status > /dev/null 2>&1 || /usr/sbin/postfix start' | sudo crontab -
+	sudo /usr/sbin/postfix start
+
+dot-forward:
+	echo 'toru.gwaihir@gmail.com' >> $(HOME)/.forward
+	echo '~/Maildir/' >> $(HOME)/.forward
