@@ -43,7 +43,7 @@ postfix-install:
 
 postfix-config:
 	[ -d /etc/postfix ] || sudo mkdir /etc/postfix
-	[ -f /etc/postfix/main.cf ] && sudo cp /etc/postfix/main.cf /etc/postfix/main.cf.orig.`date +%Y-%m-%d`
+	[ -f /etc/postfix/main.cf ] && sudo cp /etc/postfix/main.cf /etc/postfix/main.cf.orig.`date +%Y-%m-%d` || echo 'no mail.cf'
 	sudo cp main.cf /etc/postfix/
 
 postfix-apt:
