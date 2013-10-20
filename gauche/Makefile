@@ -1,9 +1,9 @@
 DISTDIR = $(HOME)/distfiles
 WORKDIR = $(HOME)/work
-GAUCHE_DIST = Gauche-0.9.1.tgz
+GAUCHE_DIST = Gauche-0.9.3.3.tgz
 GAUCHE_DISTFILE = $(DISTDIR)/$(GAUCHE_DIST)
 GAUCHE_SRCDIR := $(WORKDIR)/gauche-$(shell date +%Y%m%d-%H%M)/
-GAUCHE_BUILDDIR = $(GAUCHE_SRCDIR)/Gauche-0.9.1
+GAUCHE_BUILDDIR = $(GAUCHE_SRCDIR)/Gauche-0.9.3.3
 
 gauche: gauche-build
 
